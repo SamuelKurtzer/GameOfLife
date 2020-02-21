@@ -3,14 +3,47 @@
 #include <stdio.h>
 
 #include "define.h"
+#include "sdlHelper.h"
 
-// #include "sdlHelper.h"
+//The tile
+class Tile{
+	//use the rect to know where to display.
+	//change the texture based on the value of mtype.
+	//examples in main render
+	//rename all the types.
+    public:
+		//Initializes position and type
+		Tile( int x, int y, bool tileType ){
+			//Get the offsets
+			tileBoundingBox.x = x;
+			tileBoundingBox.y = y;
 
+			//Set the collision box
+			tileBoundingBox.w = TILE_WIDTH;
+			tileBoundingBox.h = TILE_HEIGHT;
 
-class tiles{
-	private:
-		bool state;
+			//Get the tile type
+			tileType = tileType;
+		}
 
+        //Shows the tile
+		/*
+        void render(SDL_Texture* tex){
+			//tex->render(tileBoundingBox.x, tileBoundingBox.y);
+		}
+		*/
+
+        //Get the tile type
+        bool getType(){
+			return tileType;
+		}
+        
+    private:
+        //The attributes of the tile
+        SDL_Rect tileBoundingBox;
+
+        //The tile type
+        int tileType;
 };
 
 int main(int argc, char** argv) {
@@ -37,9 +70,11 @@ int main(int argc, char** argv) {
 				break;
 		}
 
-		//SDL_Rect dstrect = { 5, 5, 320, 240 };
-		//SDL_RenderCopy(renderer, texture, NULL, &dstrect);
-		SDL_RenderCopy(renderer, texture, NULL, NULL);
+		SDL_Rect dstrect = { 5, 5, 320, 240 };
+		SDL_Rect estrect = { 500, 500, 320, 240 };
+		SDL_RenderCopy(renderer, texture, NULL, &dstrect);
+		SDL_RenderCopy(renderer, texture, NULL, &estrect);
+		//SDL_RenderCopy(renderer, texture, NULL, NULL);
 		SDL_RenderPresent(renderer);
 	}
 
