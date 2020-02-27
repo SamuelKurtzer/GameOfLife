@@ -60,10 +60,14 @@ class GOL{
 		 */
 		GOL(unsigned height, unsigned width, string path){}
 		vector<vector<bool>> step(){
+			//used often enough to pull out and make constant and clearly defined
+			int height = map.size();
+			int width  = map[0].size();
+
 			vector<vector<bool>> nextMap(map);
 			// the inner section that can be looped through without a problem.
-			for(int i=1; i<map.size()-1; i++){
-				for(int j=1; j<map[0].size()-1; j++){
+			for(int i=1; i < height-1; i++){
+				for(int j=1; j < width-1; j++){
 					int live = 0;
 					// The window that needs to be accounted for
 					for(int i_indent: {-1,0,1}){
@@ -86,9 +90,57 @@ class GOL{
 					}
 				}
 			}
-			// now do the top & bottom section
-			for(int i=0; i<map.size(); i++){
-				
+			/* now to handle the Corner Cases 
+			 * first i will selectivly implement
+			 * the 4 corners then the edges as 2 loops
+			 */
+			// 0, 0
+			for(auto i: {0, height-1}){
+				for(auto j: {0, width-1}){
+				int live = 0;
+				if(i>0){
+					// Negitive 1 i
+					// Neutral j
+					live+=map[i-1][j];
+					if(j>0){
+						// Negitive 1 j
+						live+=map[i-1][j-1];
+						live+=map[i]  [j-1];
+					}else{
+						// Positive 1 j
+						live+=map[i-1][j+1];
+						live+=map[i]  [j+1];
+					}
+				}else{
+					//positive i
+					// Neutral j
+					live+=map[i+1][j];
+					if(j>0){
+						// Negitive 1 j
+						live+=map[i+1][j-1];
+						live+=map[i]  [j-1];
+					}else{
+						// Positive 1 j
+						live+=map[i+1][j+1];
+						live+=map[i]  [j+1];
+					}
+				}
+				if(map[][]){
+					if(live < 2 || live >= 4){
+						nextMap[][] = false;
+					}else{
+						nextMap[][] = true;
+					}
+				}else if(live > 3){
+					nextMap[][] = true;
+				}
+			}
+			// now do the left & right section
+			for(int i=0; i<height; i++){
+				for(int i_indent: {0,1}){
+					for(int j_indent: {-1,0,1}){
+
+
 			}
 		}
 };
